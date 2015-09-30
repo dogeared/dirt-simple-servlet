@@ -12,6 +12,35 @@
         <servlet-name>WelcomeController</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>IDSiteLoginController</servlet-name>
+        <servlet-class>com.stormpath.sdk.examples.servlet.IDSiteLoginController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IDSiteLoginController</servlet-name>
+        <url-pattern>/id_site_login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>IDSiteLogoutController</servlet-name>
+        <servlet-class>com.stormpath.sdk.examples.servlet.IDSiteLogoutController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IDSiteLogoutController</servlet-name>
+        <url-pattern>/id_site_logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>IDSiteLogoutFinishController</servlet-name>
+        <servlet-class>com.stormpath.sdk.examples.servlet.IDSiteLogoutFinishController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>IDSiteLogoutFinishController</servlet-name>
+        <url-pattern>/id_site_logout_finish</url-pattern>
+    </servlet-mapping>
+
+
     <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>/assets/*</url-pattern>

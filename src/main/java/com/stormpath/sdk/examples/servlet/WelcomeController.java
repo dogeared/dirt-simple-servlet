@@ -17,6 +17,8 @@ package com.stormpath.sdk.examples.servlet;
 
 import com.stormpath.sdk.account.Account;
 import com.stormpath.sdk.application.Application;
+import com.stormpath.sdk.idsite.AccountResult;
+import com.stormpath.sdk.servlet.application.ApplicationResolver;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -27,10 +29,6 @@ import java.io.PrintWriter;
 
 public class WelcomeController extends HttpServlet {
 
-    protected Application getApplication(HttpServletRequest req) {
-        return (Application)req.getAttribute(Application.class.getName());
-    }
-
     protected Account getAccount(HttpServletRequest req) {
         return (Account)req.getAttribute(Account.class.getName());
     }
@@ -38,8 +36,14 @@ public class WelcomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        Application app = getApplication(req);
-        Account acc = getAccount(req);
+        Application app = ApplicationResolver.INSTANCE.getApplication(req);
+
+        Account acc = null;
+
+        if (req.getQueryString() != null) {
+            AccountResult accountResult = app.newIdSiteCallbackHandler(req).getAccountResult();
+            acc = accountResult.getAccount();
+        }
 
         StringBuffer sb = new StringBuffer();
         sb.append("<html>");
@@ -51,12 +55,11 @@ public class WelcomeController extends HttpServlet {
 
         if (acc == null) {
             // not logged in
-            sb.append("<p><h4>Click <a href=\"/login\">here</a> to log in.</h4></p>");
-            sb.append("<p><h4>Click <a href=\"/register\">here</a> to register.</h4></p>");
+            sb.append("<p><h4>Click <a href=\"/id_site_login\">here</a> to log in or register.</h4></p>");
         } else {
             // logged in
             sb.append("<p><h4>Welcome, " + acc.getFullName() + "!</h4></p>");
-            sb.append("<p><h4>Click <a href=\"/logout\">here</a> to log out.</h4></p>");
+            sb.append("<p><h4>Click <a href=\"/id_site_logout\">here</a> to log out.</h4></p>");
         }
 
         sb.append("</body></html>");
